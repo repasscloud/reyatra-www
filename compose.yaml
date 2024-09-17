@@ -46,7 +46,7 @@ services:
       timeout: 30s
       retries: 3
       start_period: 30s
-  
+
   nginx:
     depends_on:
       - wordpress
@@ -71,9 +71,10 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
-  
+
   caddy:
-    depends_on: nginx
+    depends_on:
+      - nginx
     image: caddy:2.8.4-alpine
     container_name: caddy
     networks:
@@ -82,7 +83,8 @@ services:
       - "./data/caddy2/data:/data/caddy"
       - "./data/caddy2/config:/config"
       - "./logs/caddy2:/var/log/caddy"
-    environment: 
+      - "./conf/caddy2/Caddyfile:/etc/caddy/Caddyfile"
+    environment:
       - "TZ=Australia/Sydney"
     restart: unless-stopped
     ports:
@@ -106,7 +108,7 @@ services:
       - backend
       - frontend
     env_file:
-      "./docker/conf/adminer.env"
+      "./conf/adminer.env"
     ports:
       - "8081:8080"
     environment:
