@@ -3,10 +3,10 @@
     email admin@domain.com         # Email for Let's Encrypt certificate notifications
     auto_https disable_redirects   # Disable automatic HTTPS redirects
     acme_ca https://acme-v02.api.letsencrypt.org/directory # Let's Encrypt ACME URL
-    rate_limit {
-        interval 1m
-        burst 100
-    }
+    # rate_limit {
+    #     interval 1m
+    #     burst 100
+    # }
 }
 
 # Redirect HTTP to HTTPS

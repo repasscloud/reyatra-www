@@ -2,6 +2,8 @@
 
 docker compose down
 
+git pull
+
 sudo rm -rf ./data/mariadb
 mkdir -p ./data/mariadb
 sudo touch ./conf/mariadb/.gitkeep
