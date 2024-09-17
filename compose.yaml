@@ -58,7 +58,7 @@ services:
     env_file:
       "./conf/nginx.env"
     volumes:
-      - "./conf/nginx/nginx.conf:/etc/nginx/nginx.conf"
+      # - "./conf/nginx/nginx.conf:/etc/nginx/nginx.conf"
       - "./conf/nginx/default.conf:/etc/nginx/conf.d/default.conf"
       - "./data/wordpress/rytr_prod:/var/www/html"
       - "./logs/nginx:/var/log/nginx"
