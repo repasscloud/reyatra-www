@@ -1,0 +1,43 @@
+{
+    # Global options block
+    email admin@domain.com         # Email for Let's Encrypt certificate notifications
+    auto_https on                   # Enable automatic HTTPS
+    acme_ca https://acme-v02.api.letsencrypt.org/directory # Let's Encrypt ACME URL
+    rate_limit {
+        interval 1m
+        burst 100
+    }
+}
+
+# Redirect HTTP to HTTPS
+http://dev01.reyatra.com {
+    redir https://{host}{uri}  # Redirect all HTTP traffic to HTTPS
+}
+
+# Main HTTPS block for reverse proxying to NGINX
+https://dev01.reyatra.com {
+    reverse_proxy nginx:80 {
+        header_up Host {host}         # Preserve original Host header
+        header_up X-Real-IP {remote}  # Add real client IP to requests
+        header_up X-Forwarded-For {remote} # Add X-Forwarded-For header
+        header_up X-Forwarded-Proto {scheme} # Add protocol (http/https)
+    }
+
+    # Additional security headers
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin"
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    }
+
+    # Enable gzip compression
+    encode gzip
+}
+
+# Optional block for serving static assets (optional)
+# https://assets.dev01.reyatra.com {
+#     root * /var/www/assets  # Static assets folder
+#     file_server
+# }
